@@ -1,6 +1,7 @@
 import { createSignal, createMemo, createEffect, For } from "solid-js";
 import { DisplayData, mockDisplayData } from "~/interfaces/DisplayData";
 import Input from "~/components/Input";
+import Display from "~/components/Display";
 
 const [filter, setFilter] = createSignal("");
 const [filterHori, setFilterHori] = createSignal(NaN);
@@ -19,15 +20,6 @@ const filterVertiUpdated = createMemo(() => {
   const vertiFilter = filterVerti();
   return typeof vertiFilter === "number" && !isNaN(vertiFilter);
 });
-
-function Display({ display }: { display: DisplayData }) {
-  return (
-    <div>
-      {display.brand} Horizontal resolution: {display.horizontal_resolution}{" "}
-      Vertical resolution: {display.vertical_resolution}
-    </div>
-  );
-}
 
 export default function Home() {
   const displays: DisplayData[] = mockDisplayData;
@@ -85,7 +77,7 @@ export default function Home() {
       <div>
         Total pixels:{" "}
         {isNaN(filterHori()) || isNaN(filterVerti())
-          ? "N/A"
+          ? ""
           : filterHori() * filterVerti()}
       </div>
       <br />
