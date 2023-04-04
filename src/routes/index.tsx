@@ -7,13 +7,12 @@ const [filter, setFilter] = createSignal("");
 const [filterHori, setFilterHori] = createSignal(NaN);
 const [filterVerti, setFilterVerti] = createSignal(NaN);
 
-// createEffect(() => console.log(filter()));
-// createEffect(() => console.log(filterHori()));
-// createEffect(() => console.log(filterVerti()));
+createEffect(() => console.log(filter()));
+createEffect(() => console.log(filterHori()));
+createEffect(() => console.log(filterVerti()));
 
 const filteredDisplays = createMemo(() => {
   let displays = mockDisplayData ?? [];
-  console.log("before first if statement inside filteredDisplays");
   if (filter() !== "") {
     displays = displays.filter(
       (display) =>
@@ -22,19 +21,16 @@ const filteredDisplays = createMemo(() => {
         display.vertical_resolution.toString().includes(filter())
     );
   }
-  console.log("before second if statement inside filteredDisplays");
   if (typeof filterHori() === "number" && !isNaN(filterHori())) {
     displays = displays.filter(
       (display) => display.horizontal_resolution === filterHori()
     );
   }
-  console.log("before third if statement inside filteredDisplays");
   if (typeof filterVerti() === "number" && !isNaN(filterVerti())) {
     displays = displays.filter(
       (display) => display.vertical_resolution === filterVerti()
     );
   }
-  console.log("before final return of displays");
   return displays;
 }, [filter, filterHori, filterVerti]);
 
