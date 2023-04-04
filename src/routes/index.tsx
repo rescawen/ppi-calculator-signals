@@ -1,5 +1,5 @@
 import { createSignal, createMemo, createEffect, For } from "solid-js";
-import { DisplayData, mockDisplayData } from "~/interfaces/DisplayData";
+import { mockDisplayData } from "~/interfaces/DisplayData";
 import Input from "~/components/Input";
 import Display from "~/components/Display";
 
@@ -11,36 +11,32 @@ const [filterVerti, setFilterVerti] = createSignal(NaN);
 // createEffect(() => console.log(filterHori()));
 // createEffect(() => console.log(filterVerti()));
 
-const filteredDisplays = createMemo(() =>
-  (mockDisplayData ?? []).filter((display) => {
-    console.log("before first if statement inside filteredDisplays");
-    if (filter() !== "") {
-      return (
+const filteredDisplays = createMemo(() => {
+  let displays = mockDisplayData ?? [];
+  console.log("before first if statement inside filteredDisplays");
+  if (filter() !== "") {
+    displays = displays.filter(
+      (display) =>
         display.brand.includes(filter()) ||
         display.horizontal_resolution.toString().includes(filter()) ||
         display.vertical_resolution.toString().includes(filter())
-      );
-    }
-    console.log("before second if statement inside filteredDisplays");
-    if (
-      typeof filterHori() === "number" &&
-      !isNaN(filterHori()) &&
-      display.horizontal_resolution !== filterHori()
-    ) {
-      return false;
-    }
-    console.log("before third if statement inside filteredDisplays");
-    if (
-      typeof filterVerti() === "number" &&
-      !isNaN(filterVerti()) &&
-      display.vertical_resolution !== filterVerti()
-    ) {
-      return false;
-    }
-    console.log("before final truthy return");
-    return true;
-  })
-);
+    );
+  }
+  console.log("before second if statement inside filteredDisplays");
+  if (typeof filterHori() === "number" && !isNaN(filterHori())) {
+    displays = displays.filter(
+      (display) => display.horizontal_resolution === filterHori()
+    );
+  }
+  console.log("before third if statement inside filteredDisplays");
+  if (typeof filterVerti() === "number" && !isNaN(filterVerti())) {
+    displays = displays.filter(
+      (display) => display.vertical_resolution === filterVerti()
+    );
+  }
+  console.log("before final return of displays");
+  return displays;
+}, [filter, filterHori, filterVerti]);
 
 createEffect(() => console.log(filteredDisplays()));
 
