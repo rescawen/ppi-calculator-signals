@@ -1,5 +1,5 @@
 import { createSignal, createMemo, createEffect, For } from "solid-js";
-import { DisplayData, mockDisplayData } from "~/interfaces/DisplayData";
+import { mockDisplayData } from "~/interfaces/DisplayData";
 import Input from "~/components/Input";
 import Display from "~/components/Display";
 
@@ -11,39 +11,36 @@ createEffect(() => console.log(filter()));
 createEffect(() => console.log(filterHori()));
 createEffect(() => console.log(filterVerti()));
 
-const filterUpdated = createMemo(() => filter() !== "");
-const filterHoriUpdated = createMemo(() => {
-  const horiFilter = filterHori();
-  return typeof horiFilter === "number" && !isNaN(horiFilter);
-});
-const filterVertiUpdated = createMemo(() => {
-  const vertiFilter = filterVerti();
-  return typeof vertiFilter === "number" && !isNaN(vertiFilter);
-});
-
-export default function Home() {
-  const displays: DisplayData[] = mockDisplayData;
-
-  const filteredDisplays = createMemo(() =>
-    (displays ?? []).filter(
+const filteredDisplays = createMemo(() => {
+  let displays = mockDisplayData ?? [];
+  if (filter() !== "") {
+    displays = displays.filter(
       (display) =>
         display.brand.includes(filter()) ||
         display.horizontal_resolution.toString().includes(filter()) ||
         display.vertical_resolution.toString().includes(filter())
-    )
-  );
-
-  const filteredHori = createMemo(() =>
-    (displays ?? []).filter(
+    );
+  }
+  if (typeof filterHori() === "number" && !isNaN(filterHori())) {
+    displays = displays.filter(
       (display) => display.horizontal_resolution === filterHori()
-    )
-  );
-
-  const filteredVerti = createMemo(() =>
-    (displays ?? []).filter(
+    );
+  }
+  if (typeof filterVerti() === "number" && !isNaN(filterVerti())) {
+    displays = displays.filter(
       (display) => display.vertical_resolution === filterVerti()
-    )
-  );
+    );
+  }
+  return displays;
+}, [filter, filterHori, filterVerti]);
+
+createEffect(() => console.log(filteredDisplays()));
+
+export default function Home() {
+  const totalPixels =
+    isNaN(filterHori()) || isNaN(filterVerti())
+      ? ""
+      : filterHori() * filterVerti();
 
   return (
     <main>
@@ -74,37 +71,12 @@ export default function Home() {
         setFilter={setFilterVerti}
         onInput={(e) => setFilterVerti(parseInt(e.target.value))}
       />
-      <div>
-        Total pixels:{" "}
-        {isNaN(filterHori()) || isNaN(filterVerti())
-          ? ""
-          : filterHori() * filterVerti()}
-      </div>
+      <div>Total pixels: {totalPixels}</div>
       <br />
 
-      {filterUpdated() ? (
-        <For each={filteredDisplays()} fallback={<div>Loading...</div>}>
-          {(display) => <Display display={display} />}
-        </For>
-      ) : null}
-
-      {filterHoriUpdated() ? (
-        <For each={filteredHori()} fallback={<div>Loading...</div>}>
-          {(display) => <Display display={display} />}
-        </For>
-      ) : null}
-
-      {filterVertiUpdated() ? (
-        <For each={filteredVerti()} fallback={<div>Loading...</div>}>
-          {(display) => <Display display={display} />}
-        </For>
-      ) : null}
-
-      {!filterUpdated() && !filterHoriUpdated() && !filterVertiUpdated() && (
-        <For each={displays} fallback={<div>Loading...</div>}>
-          {(display) => <Display display={display} />}
-        </For>
-      )}
+      <For each={filteredDisplays()} fallback={<div>Loading...</div>}>
+        {(display) => <Display display={display} />}
+      </For>
     </main>
   );
 }
