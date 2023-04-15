@@ -56,17 +56,14 @@ export default function Home() {
         filter={filter}
         setFilter={setFilter}
         type="text"
-        onInput={(e) => {
-          const value = (e.target as HTMLInputElement).value;
-          setFilter(value);
-        }}
+        onInput={({ target }) => setFilter(target.value)}
       />
       <Input
         title="Horizontal Resolution"
         type="number"
         filter={filterHori}
         setFilter={setFilterHori}
-        onInput={(e) => setFilterHori(parseInt(e.target.value))}
+        onInput={({ target }) => setFilterHori(parseInt(target.value))}
       />
 
       <Input
@@ -74,7 +71,7 @@ export default function Home() {
         type="number"
         filter={filterVerti}
         setFilter={setFilterVerti}
-        onInput={(e) => setFilterVerti(parseInt(e.target.value))}
+        onInput={({ target }) => setFilterVerti(parseInt(target.value))}
       />
       <div>Total pixels: {totalPixels().toString()}</div>
       <br />
