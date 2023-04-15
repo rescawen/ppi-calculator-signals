@@ -13,7 +13,7 @@ createEffect(() => console.log(filterVerti()));
 
 export default function Home() {
   const filteredDisplays = createMemo(() => {
-    let displays = mockDisplayData ?? [];
+    let displays = mockDisplayData;
     if (filter() !== "") {
       displays = displays.filter(
         (display) =>
