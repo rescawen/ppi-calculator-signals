@@ -11,36 +11,41 @@ createEffect(() => console.log(filter()));
 createEffect(() => console.log(filterHori()));
 createEffect(() => console.log(filterVerti()));
 
-const filteredDisplays = createMemo(() => {
-  let displays = mockDisplayData ?? [];
-  if (filter() !== "") {
-    displays = displays.filter(
-      (display) =>
-        display.brand.includes(filter()) ||
-        display.horizontal_resolution.toString().includes(filter()) ||
-        display.vertical_resolution.toString().includes(filter())
-    );
-  }
-  if (typeof filterHori() === "number" && !isNaN(filterHori())) {
-    displays = displays.filter(
-      (display) => display.horizontal_resolution === filterHori()
-    );
-  }
-  if (typeof filterVerti() === "number" && !isNaN(filterVerti())) {
-    displays = displays.filter(
-      (display) => display.vertical_resolution === filterVerti()
-    );
-  }
-  return displays;
-}, [filter, filterHori, filterVerti]);
-
-createEffect(() => console.log(filteredDisplays()));
-
 export default function Home() {
-  const totalPixels =
-    isNaN(filterHori()) || isNaN(filterVerti())
-      ? ""
-      : filterHori() * filterVerti();
+  const filteredDisplays = createMemo(() => {
+    let displays = mockDisplayData ?? [];
+    if (filter() !== "") {
+      displays = displays.filter(
+        (display) =>
+          display.brand.includes(filter()) ||
+          display.horizontal_resolution.toString().includes(filter()) ||
+          display.vertical_resolution.toString().includes(filter())
+      );
+    }
+    if (typeof filterHori() === "number" && !isNaN(filterHori())) {
+      displays = displays.filter(
+        (display) => display.horizontal_resolution === filterHori()
+      );
+    }
+    if (typeof filterVerti() === "number" && !isNaN(filterVerti())) {
+      displays = displays.filter(
+        (display) => display.vertical_resolution === filterVerti()
+      );
+    }
+    return displays;
+  }, [filter, filterHori, filterVerti]);
+
+  createEffect(() => console.log(filteredDisplays()));
+
+  const totalPixels = createMemo(
+    () =>
+      isNaN(filterHori()) || isNaN(filterVerti())
+        ? ""
+        : filterHori() * filterVerti(),
+    [filterHori, filterVerti]
+  );
+
+  createEffect(() => console.log(totalPixels()));
 
   return (
     <main>
@@ -71,7 +76,7 @@ export default function Home() {
         setFilter={setFilterVerti}
         onInput={(e) => setFilterVerti(parseInt(e.target.value))}
       />
-      <div>Total pixels: {totalPixels}</div>
+      <div>Total pixels: {totalPixels().toString()}</div>
       <br />
 
       <For each={filteredDisplays()} fallback={<div>Loading...</div>}>
