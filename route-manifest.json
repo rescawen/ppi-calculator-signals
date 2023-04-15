@@ -2,11 +2,11 @@
   "/*404": [
     {
       "type": "script",
-      "href": "/ppi-calculator-signals/assets/_...404_-62126584.js"
+      "href": "/ppi-calculator-signals/assets/_...404_-b93212e2.js"
     },
     {
       "type": "script",
-      "href": "/ppi-calculator-signals/assets/entry-client-bd0c1913.js"
+      "href": "/ppi-calculator-signals/assets/entry-client-2f73737e.js"
     },
     {
       "type": "style",
@@ -16,11 +16,11 @@
   "/": [
     {
       "type": "script",
-      "href": "/ppi-calculator-signals/assets/index-d4ce3ba7.js"
+      "href": "/ppi-calculator-signals/assets/index-49faa9fe.js"
     },
     {
       "type": "script",
-      "href": "/ppi-calculator-signals/assets/entry-client-bd0c1913.js"
+      "href": "/ppi-calculator-signals/assets/entry-client-2f73737e.js"
     },
     {
       "type": "style",
@@ -30,7 +30,7 @@
   "entry-client": [
     {
       "type": "script",
-      "href": "/ppi-calculator-signals/assets/entry-client-bd0c1913.js"
+      "href": "/ppi-calculator-signals/assets/entry-client-2f73737e.js"
     },
     {
       "type": "style",
