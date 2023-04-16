@@ -51,29 +51,30 @@ export default function Home() {
     <main>
       <h1>PPI Calculator using Solid Signals</h1>
 
-      <Input
-        title={"All filter:"}
-        filter={filter}
-        setFilter={setFilter}
-        type="text"
-        onInput={({ target }) => setFilter(target.value)}
-      />
-      <Input
-        title="Horizontal Resolution"
-        type="number"
-        filter={filterHori}
-        setFilter={setFilterHori}
-        onInput={({ target }) => setFilterHori(parseInt(target.value))}
-      />
-
-      <Input
-        title="Vertical Resolution"
-        type="number"
-        filter={filterVerti}
-        setFilter={setFilterVerti}
-        onInput={({ target }) => setFilterVerti(parseInt(target.value))}
-      />
-      <div>Total pixels: {totalPixels().toString()}</div>
+      <div class="border-2 border-black p-4 max-w-lg">
+        <Input
+          title={"All filter:"}
+          filter={filter}
+          setFilter={setFilter}
+          type="text"
+          onInput={({ target }) => setFilter(target.value)}
+        />
+        <Input
+          title="Horizontal Resolution"
+          type="number"
+          filter={filterHori}
+          setFilter={setFilterHori}
+          onInput={({ target }) => setFilterHori(parseInt(target.value))}
+        />
+        <Input
+          title="Vertical Resolution"
+          type="number"
+          filter={filterVerti}
+          setFilter={setFilterVerti}
+          onInput={({ target }) => setFilterVerti(parseInt(target.value))}
+        />
+        <div class="pt-1">Total pixels: {totalPixels().toString()}</div>
+      </div>
       <br />
 
       <For each={filteredDisplays()} fallback={<div>Loading...</div>}>

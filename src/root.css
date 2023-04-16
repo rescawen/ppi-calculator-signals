@@ -1,9 +1,20 @@
-:root {
-    font-family: Inter, system-ui, Avenir, Arial, Helvetica, sans-serif;
-    padding: 1rem;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+  @apply font-sans text-base antialiased;
+  padding: 1rem;
 }
 
-input,
-div {
-    font-size: xx-large;
+h1 {
+  @apply text-2xl font-bold mb-4;
 }
+
+div {
+  @apply text-xl font-semibold;
+}
+
+input {
+  @apply border-2 border-gray-600 m-1;
+} 
