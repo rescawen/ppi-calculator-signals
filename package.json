@@ -8,7 +8,7 @@
   "type": "module",
   "devDependencies": {
     "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.22",
     "solid-start-node": "^0.2.19",
     "solid-start-static": "^0.2.24",
     "tailwindcss": "^3.3.1",
