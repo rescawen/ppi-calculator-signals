@@ -17,7 +17,7 @@ export default function Home() {
     if (filter() !== "") {
       displays = displays.filter(
         (display) =>
-          display.brand.includes(filter()) ||
+          display.name.includes(filter()) ||
           display.horizontal_resolution.toString().includes(filter()) ||
           display.vertical_resolution.toString().includes(filter())
       );
