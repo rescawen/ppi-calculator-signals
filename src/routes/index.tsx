@@ -77,9 +77,11 @@ export default function Home() {
       </div>
       <br />
 
-      <For each={filteredDisplays()} fallback={<div>Loading...</div>}>
-        {(display) => <Display display={display} />}
-      </For>
+      <div class="grid grid-cols-3">
+        <For each={filteredDisplays()} fallback={<div>Loading...</div>}>
+          {(display) => <Display display={display} />}
+        </For>
+      </div>
     </main>
   );
 }
