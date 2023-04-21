@@ -22,12 +22,12 @@ export default function Home() {
           display.vertical_resolution.toString().includes(filter())
       );
     }
-    if (typeof filterHori() === "number" && !isNaN(filterHori())) {
+    if (!isNaN(filterHori())) {
       displays = displays.filter(
         (display) => display.horizontal_resolution === filterHori()
       );
     }
-    if (typeof filterVerti() === "number" && !isNaN(filterVerti())) {
+    if (!isNaN(filterVerti())) {
       displays = displays.filter(
         (display) => display.vertical_resolution === filterVerti()
       );
