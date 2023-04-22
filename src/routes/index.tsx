@@ -6,10 +6,12 @@ import Display from "~/components/Display";
 const [filter, setFilter] = createSignal("");
 const [filterHori, setFilterHori] = createSignal(NaN);
 const [filterVerti, setFilterVerti] = createSignal(NaN);
+const [filterDiag, setFilterDiag] = createSignal(NaN);
 
-createEffect(() => console.log(filter()));
-createEffect(() => console.log(filterHori()));
-createEffect(() => console.log(filterVerti()));
+// createEffect(() => console.log(filter()));
+// createEffect(() => console.log(filterHori()));
+// createEffect(() => console.log(filterVerti()));
+createEffect(() => console.log(filterDiag()));
 
 export default function Home() {
   const filteredDisplays = createMemo(() => {
@@ -19,7 +21,8 @@ export default function Home() {
         (display) =>
           display.name.includes(filter()) ||
           display.horizontal_resolution.toString().includes(filter()) ||
-          display.vertical_resolution.toString().includes(filter())
+          display.vertical_resolution.toString().includes(filter()) ||
+          display.diagonal.toString().includes(filter())
       );
     }
     if (!isNaN(filterHori())) {
@@ -32,8 +35,13 @@ export default function Home() {
         (display) => display.vertical_resolution === filterVerti()
       );
     }
+    if (!isNaN(filterDiag())) {
+      displays = displays.filter(
+        (display) => display.diagonal === filterDiag()
+      );
+    }
     return displays;
-  }, [filter, filterHori, filterVerti]);
+  }, [filter, filterHori, filterVerti, filterDiag]);
 
   createEffect(() => console.log(filteredDisplays()));
 
@@ -45,7 +53,7 @@ export default function Home() {
     [filterHori, filterVerti]
   );
 
-  createEffect(() => console.log(totalPixels()));
+  // createEffect(() => console.log(totalPixels()));
 
   return (
     <main>
@@ -53,26 +61,44 @@ export default function Home() {
 
       <div class="border-2 border-black p-4 max-w-lg">
         <Input
-          title={"All filter:"}
+          title="All filter:"
           filter={filter}
           setFilter={setFilter}
           type="text"
           onInput={({ target }) => setFilter(target.value)}
         />
         <Input
-          title="Horizontal Resolution"
+          title="Horizontal Resolution:"
           type="number"
           filter={filterHori}
           setFilter={setFilterHori}
           onInput={({ target }) => setFilterHori(parseInt(target.value))}
         />
         <Input
-          title="Vertical Resolution"
+          title="Vertical Resolution:"
           type="number"
           filter={filterVerti}
           setFilter={setFilterVerti}
           onInput={({ target }) => setFilterVerti(parseInt(target.value))}
         />
+        <div>
+          {"Diagonal:"}
+          <input
+            type="number"
+            step="0.1"
+            value={filterDiag()}
+            // onInput={({ target }) => setFilterDiag(parseFloat(target.value))}
+            onInput={({ target }) => {
+              console.log("target value", target.value);
+              const value = parseFloat(target.value);
+              console.log("parsed target value", value);
+              if (!isNaN(value)) {
+                setFilterDiag(value);
+              }
+            }}
+            lang="en-US"
+          />
+        </div>
         <div class="pt-1">Total pixels: {totalPixels().toString()}</div>
       </div>
       <br />
