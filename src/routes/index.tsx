@@ -11,7 +11,8 @@ const [filterDiag, setFilterDiag] = createSignal(NaN);
 // createEffect(() => console.log(filter()));
 // createEffect(() => console.log(filterHori()));
 // createEffect(() => console.log(filterVerti()));
-createEffect(() => console.log(filterDiag()));
+createEffect(() => console.log("filter diag signal", filterDiag()));
+// createEffect(() => console.log("filter diag signal is integer", filterDiag()));
 
 export default function Home() {
   const filteredDisplays = createMemo(() => {
@@ -43,7 +44,7 @@ export default function Home() {
     return displays;
   }, [filter, filterHori, filterVerti, filterDiag]);
 
-  createEffect(() => console.log(filteredDisplays()));
+  // createEffect(() => console.log(filteredDisplays()));
 
   const totalPixels = createMemo(
     () =>
@@ -87,16 +88,30 @@ export default function Home() {
             type="number"
             step="0.1"
             value={filterDiag()}
-            // onInput={({ target }) => setFilterDiag(parseFloat(target.value))}
-            onInput={({ target }) => {
-              console.log("target value", target.value);
-              const value = parseFloat(target.value);
-              console.log("parsed target value", value);
-              if (!isNaN(value)) {
+            onInput={(e) => {
+              // console.log("event", e);
+              const value = parseFloat(e.target.value);
+              // console.log("parsed target value", value);
+              // if (!isNaN(value)) {
+              //   setFilterDiag(value);
+              // }
+              console.log(isNaN(value));
+              console.log(e.inputType === "deleteContentBackward");
+              console.log(
+                "is filterDiag integer now",
+                Number.isInteger(filterDiag())
+              );
+              if (
+                isNaN(value) &&
+                e.inputType === "deleteContentBackward" &&
+                Number.isInteger(filterDiag())
+              ) {
+                setFilterDiag(NaN);
+              } else if (!isNaN(value)) {
                 setFilterDiag(value);
               }
             }}
-            lang="en-US"
+            // lang="en-US"
           />
         </div>
         <div class="pt-1">Total pixels: {totalPixels().toString()}</div>
