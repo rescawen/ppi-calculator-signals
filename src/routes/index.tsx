@@ -8,11 +8,10 @@ const [filterHori, setFilterHori] = createSignal(NaN);
 const [filterVerti, setFilterVerti] = createSignal(NaN);
 const [filterDiag, setFilterDiag] = createSignal(NaN);
 
-// createEffect(() => console.log(filter()));
-// createEffect(() => console.log(filterHori()));
-// createEffect(() => console.log(filterVerti()));
-createEffect(() => console.log("filter diag signal", filterDiag()));
-// createEffect(() => console.log("filter diag signal is integer", filterDiag()));
+createEffect(() => console.log(filter()));
+createEffect(() => console.log(filterHori()));
+createEffect(() => console.log(filterVerti()));
+createEffect(() => console.log(filterDiag()));
 
 export default function Home() {
   const filteredDisplays = createMemo(() => {
@@ -44,7 +43,7 @@ export default function Home() {
     return displays;
   }, [filter, filterHori, filterVerti, filterDiag]);
 
-  // createEffect(() => console.log(filteredDisplays()));
+  createEffect(() => console.log(filteredDisplays()));
 
   const totalPixels = createMemo(
     () =>
@@ -54,7 +53,7 @@ export default function Home() {
     [filterHori, filterVerti]
   );
 
-  // createEffect(() => console.log(totalPixels()));
+  createEffect(() => console.log(totalPixels()));
 
   return (
     <main>
@@ -89,18 +88,7 @@ export default function Home() {
             step="0.1"
             value={filterDiag()}
             onInput={(e) => {
-              // console.log("event", e);
               const value = parseFloat(e.target.value);
-              // console.log("parsed target value", value);
-              // if (!isNaN(value)) {
-              //   setFilterDiag(value);
-              // }
-              console.log(isNaN(value));
-              console.log(e.inputType === "deleteContentBackward");
-              console.log(
-                "is filterDiag integer now",
-                Number.isInteger(filterDiag())
-              );
               if (
                 isNaN(value) &&
                 e.inputType === "deleteContentBackward" &&
@@ -111,7 +99,6 @@ export default function Home() {
                 setFilterDiag(value);
               }
             }}
-            // lang="en-US"
           />
         </div>
         <div class="pt-1">Total pixels: {totalPixels().toString()}</div>
